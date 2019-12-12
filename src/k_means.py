@@ -168,17 +168,17 @@ def elbow_method(min_, max_, iterations=5, plot=False):
     results = {}
     min_wss = np.infty
     best_k = None
-    min_found = False
+    k_found = False
     for k in range(min_, max_):
         values = []
         for i in range(iterations):
             values.append(comp_wss(k_means(k, data_source)))
         results[k] = sum(values)/len(values)
-        if results[k] < min_wss and not min_found:
+        if results[k] < min_wss and not k_found:
             min_wss = results[k]
             best_k = k
         elif results[k] > min_wss:
-            min_found = True
+            k_found = True
             if not plot:  # keep computing only for the sake of illustration; stop when no plot is desired anyway.
                 break
     if plot:  # plots the number of clusters against the average goodness of the resulting clusters.
@@ -194,5 +194,6 @@ def elbow_method(min_, max_, iterations=5, plot=False):
 
 # for demonstration: run k_means on optimal k as computed using the elbow method.
 # alternatively just set k = 2 for the current data set.
-opt_k = elbow_method(1, 6)
-k_means(k=opt_k, datapath=data_source, iterations=4, plotall=True)
+
+# opt_k = elbow_method(1, 6)
+k_means(k=2, datapath=data_source, iterations=4, plotall=True)
