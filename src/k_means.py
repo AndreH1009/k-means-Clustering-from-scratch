@@ -110,7 +110,7 @@ def fatra(k, data):  # k: number of centers
 
 # implement k-means/Lloyd's algorithm to return a clustering:
 # optionally plots all stages of clustering for presentation purposes, set plotall = True.
-def k_means(k, datapath, init='FT', dimension = 2, iterations = 5, plotall=False):
+def k_means(k, datapath=data_source, init='FT', dimension=2, iterations=5, plotall=False):
     clustering = {}  # maps cluster sets of points to centers given by coordinate tuples
     if plotall:
         data = readDataFile(path=datapath, plot=True)
@@ -163,37 +163,46 @@ def comp_wss(clustering):
 
 
 # return optimal number of clusters for given data set.
-# optionally plot elbow curve. plot=False may save considerable computation time.
+# optionally plot elbow curve: plot=True
 def elbow_method(min_, max_, iterations=5, plot=False):
-    results = {}
-    min_wss = np.infty
-    best_k = None
-    k_found = False
-    for k in range(min_, max_):
+    avg_wss = {}
+    slope = []
+    der_slope = []
+    for k in range(min_, max_):  # compute the average wss for all specified k.
         values = []
         for i in range(iterations):
             values.append(comp_wss(k_means(k, data_source)))
-        results[k] = sum(values)/len(values)
-        if results[k] < min_wss and not k_found:
-            min_wss = results[k]
-            best_k = k
-        elif results[k] > min_wss:
-            k_found = True
-            if not plot:  # keep computing only for the sake of illustration; stop when no plot is desired anyway.
-                break
-    if plot:  # plots the number of clusters against the average goodness of the resulting clusters.
+        avg_wss[k] = sum(values)/len(values)
+    for (y_1, y_2) in [(x - 1, x) for x in range(min_ + 1, max_)]:  # compute the slope of every edge
+        slope.append(avg_wss[y_2] - avg_wss[y_1])
+    for (s_1, s_2) in [(slope[x - 1], slope[x]) for x in range(1, len(slope))]:
+        der_slope.append(s_2 - s_1)
+    opt_k = der_slope.index(max(der_slope)) + 2
+    if plot:  # plots the number of clusters against the average "goodness" of the resulting clusters.
         y = []
         for k in range(min_, max_):
-            y.append(results[k])
-        plt.plot(results.keys(), y, "-ob")
+            y.append(avg_wss[k])
+        xint = range(min_, max_)
+        plt.xticks(xint)
+        plt.plot(avg_wss.keys(), y, "-ob")
+        plt.plot([opt_k], [avg_wss[opt_k]], "o", markersize=18.0, markerfacecolor="None", markeredgecolor="red")
         plt.xlabel("k")
-        plt.ylabel("average wss on %d iterations" % iterations)
+        plt.ylabel("average within-cluster sum-of-squares" )
+        plt.title("Elbow-Method: the optimal number of clusters")
+        plt.gcf().gca().tick_params(labelsize=12)
         plt.show()
-    return best_k
+    return opt_k
 
+
+##############################################
 
 # for demonstration: run k_means on optimal k as computed using the elbow method.
-# alternatively just set k = 2 for the current data set.
+my_k = elbow_method(1, 6, plot=True)
+k_means(my_k, plotall=True)
 
-# opt_k = elbow_method(1, 6)
-k_means(k=2, datapath=data_source, iterations=4, plotall=True)
+# alternatively just run k_means for k=2:
+# k_means(k=2, plotall=True)
+
+# another option is to create a clustering and visualize it at a later point:
+# clustering = k_means(k=2)
+# plotClustering(clustering)
