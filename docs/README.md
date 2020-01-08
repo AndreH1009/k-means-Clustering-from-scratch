@@ -8,13 +8,15 @@ Deepen my knowledge of Python and the k-means Algorithm.
 I use the "Old Faithful" data set, which observes the duration of geyser eruptions and the waiting time between geyser eruptions. The source is https://www.stat.cmu.edu/~larry/all-of-statistics/=data/faithful.dat .
 
 ## How To
+- access the project:\
+clone the project and find file "k_means.py" in src.\
 - generate a clustering of the given data set using k-means:\
 ```my_c = k_means(k=2)```
 - visualize a given clustering my_c:\
 ```plotClustering(my_c)```
 - visualize the clustering process itself:\
 ```k_means(k=2, plotall=True)```
-- estimate the optiml number of clusters between one and six using the elbow-method:\
+- estimate the optimal number of clusters between one and six using the elbow-method:\
 ```my_k = elbow_method(1,6)```
 - show the elbow-curve:
 ```elbow_method(1, 6, plot=True)```
