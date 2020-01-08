@@ -9,7 +9,7 @@ I use the "Old Faithful" data set, which observes the duration of geyser eruptio
 
 ## How To
 - access the project:\
-clone the project and find file "k_means.py" in src.\
+clone the project and find file "k_means.py" in src.
 - generate a clustering of the given data set using k-means:\
 ```my_c = k_means(k=2)```
 - visualize a given clustering my_c:\
