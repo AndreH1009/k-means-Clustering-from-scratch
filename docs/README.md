@@ -16,7 +16,7 @@ I use the "Old Faithful" data set, which observes the duration of geyser eruptio
 ```k_means(k=2, plotall=True)```
 - estimate the optiml number of clusters between one and six using the elbow-method:\
 ```my_k = elbow_method(1,6)```
--show the elbow-curve:
+- show the elbow-curve:
 ```elbow_method(1, 6, plot=True)```
 
 ## Example
