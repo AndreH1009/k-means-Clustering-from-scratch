@@ -197,8 +197,8 @@ def elbow_method(min_, max_, iterations=5, plot=False):
 ##############################################
 
 # for demonstration: run k_means on optimal k as computed using the elbow method.
-my_k = elbow_method(1, 6, plot=True)
-k_means(my_k, plotall=True)
+# my_k = elbow_method(1, 6, plot=True)
+# k_means(my_k, plotall=True)
 
 # alternatively just run k_means for k=2:
 # k_means(k=2, plotall=True)
