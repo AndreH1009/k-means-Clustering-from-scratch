@@ -67,20 +67,22 @@ def readDataFile(path, plot=False):
 
 # implement function to visualize a given clustering:
 def plotClustering(clustering, dimension=2, colors=['cyan', 'magenta'], centercol='blue', title=None):
-    coords = []
+    coords = []  # contains one list of coordinate lists for each cluster
     for i in range(len(clustering.keys())):
         coords.append([])  # for each cluster one list
         for j in range(dimension):  # for each dimension one list of coords
             coords[i].append([])
             for point in clustering[list(clustering.keys())[i]]:
                 coords[i][j].append(point[j])  # for each point store the respective coordinate
-    if len(colors) < dimension:  # prevent errors due to too few colors in the list
-        for i in range(dim):
-            colors.append(colors[0])
-    # draw the points for each cluster:
     for sets in coords:
-        plt.scatter(sets[0], sets[1], color=colors[0])
-        colors = colors[1:]
+        if len(colors) == 0:  # if colors end up empty, generate random new color for next cluster
+            c = np.random.rand(3,)
+            while c == 'cyan' or c == 'magenta':
+                c = np.random.rand(3, )
+            plt.scatter(sets[0], sets[1], color=c)
+        else:
+            plt.scatter(sets[0], sets[1], color=colors[0])
+            colors = colors[1:]
     # draw the centers:
     for center in clustering.keys():
         plt.scatter(center[0], center[1], color=centercol, marker='x', s=200)
