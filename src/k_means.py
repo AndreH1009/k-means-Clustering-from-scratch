@@ -3,6 +3,7 @@
 import re
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.colors as col
 
 
 # some general declarations:
@@ -76,8 +77,10 @@ def plotClustering(clustering, dimension=2, colors=['cyan', 'magenta'], centerco
                 coords[i][j].append(point[j])  # for each point store the respective coordinate
     for sets in coords:
         if len(colors) == 0:  # if colors end up empty, generate random new color for next cluster
+            cyan = col.to_rgb(col.get_named_colors_mapping()['cyan'])
+            magenta = col.to_rgb(col.get_named_colors_mapping()['magenta'])
             c = np.random.rand(3,)
-            while c == 'cyan' or c == 'magenta':
+            while (c == cyan).all() or (c == magenta).all():
                 c = np.random.rand(3, )
             plt.scatter(sets[0], sets[1], color=c)
         else:
